@@ -8,7 +8,7 @@
 var util = require('dantil')
 
 /**
- * Checks if options object `options` adheres to `schema`. Simulates static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed.
+ * Checks if options object `options` adheres to `schema`. Simulates static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
  *
  * **Property names and types:** `schema` is an object where each property name defines an accepted `options` property. Each `schema` property value defines the accepted data type(s) for that property using function constructors (e.g., `Array`, `Object`, `Number`, `MyClassName`):
  * ```js
@@ -66,42 +66,36 @@ var util = require('dantil')
  * @returns {boolean} Returns `true` if `options` is ill-formed, else `false`.
  * @example
  *
+ * var illFormedOpts = require('ill-formed-opts')
+ *
  * var schema = {
- *   // Must be a `number`.
- *   num: Number,
- *
- *   // Must be a `number` (identical to previous parameter).
- *   otherNum: { type: Number },
- *
- *   // Must be of type `Array` or `Object`.
- *   args: [ Array, Object ],
- *
- *   // Must be of type `Array` or `Object` (identical to previous parameter).
- *   otherArgs: { type: [ Array, Object ] },
- *
- *   // Must be `Array` containing only `strings`.
- *   strings: { type: Array, arrayType: String },
- *
- *   // Must be `Array` containing only `strings`, `numbers`, or `booleans`.
- *   primitives: { type: Array, arrayType: [ String, Number, Boolean ] },
- *
- *   // Parameter can be omitted.
- *   str: { type: String, optional: true },
- *
- *   // Must be one of predefined values.
- *   val: { values: [ 'red', 'yellow', 'blue' ] }
+ *   // Require `string` 'modulePath'.
+ *   modulePath: String,
+ *   // Optionally accept an `Array` of `string`s for 'args'.
+ *   args: { type: Array, arrayType: String, optional: true },
+ *   // Optionally accept an `boolean` for 'silent'.
+ *   silent: { type: Boolean, optional: true },
+ *   // Require one of predefined values for 'stdio'.
+ *   stdio: { values: [ 'pipe', 'ignore', 0, 1, 2 ] }
  * }
  *
- * function myFunc(options) {
+ * function fork(options) {
  *   if (illFormedOpts(schema, options)) {
- *     // => Prints descriptive, helpful error messages
+ *     // => Prints descriptive, helpful error message
  *
- *     // Handle ill-formed `options` how you choose
- *     throw new Error('ill-formed options')
+ *     throw new Error('Ill-formed options')
  *   }
  *
  *   // ...stuff...
  * }
+ * ```
+ * ```js
+ * fork({ modulePath: './myModule.js', stdio: 'out' })
+ * // => Prints: Error: Unrecognized value for 'stdio': 'out'
+ * //                   Acceptable values for 'stdio': [ 'pipe', 'ignore', 0, 1, 2 ]
+ * //
+ * //            /Users/Danny/foo.js:22
+ * //              { modulePath: './myModule.js', stdio: 'out' }
  */
 function illFormedOpts(schema, options) {
   // Check if missing an options parameter required by schema.
