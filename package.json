@@ -1,0 +1,34 @@
+{
+  "name": "ill-formed-opts",
+  "version": "0.0.1",
+  "description": "An options object schema validator for Node.js.",
+  "main": "illFormedOpts.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "dantil": "github:dannynemer/dantil"
+  },
+  "devDependencies": {
+    "docdown": "github:dannynemer/docdown"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DannyNemer/ill-formed-opts.git"
+  },
+  "keywords": [
+    "options",
+    "opts",
+    "type",
+    "check"
+  ],
+  "author": "Danny Nemer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DannyNemer/ill-formed-opts/issues"
+  },
+  "homepage": "https://github.com/DannyNemer/ill-formed-opts#readme"
+}
