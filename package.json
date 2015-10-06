@@ -13,7 +13,8 @@
     "docdown": "github:dannynemer/docdown"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "node ./doc/parse.js"
   },
   "repository": {
     "type": "git",
