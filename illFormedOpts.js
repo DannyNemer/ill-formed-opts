@@ -19,13 +19,13 @@ var util = require('dantil')
  * var illFormedOpts = require('ill-formed-opts')
  *
  * var schema = {
- *   // Require `string` 'modulePath'.
- *   modulePath: String,
- *   // Optionally accept an `Array` of `string`s for 'args'.
- *   args: { type: Array, arrayType: String, optional: true },
  *   // Optionally accept an `boolean` for 'silent'.
- *   silent: { type: Boolean, optional: true },
- *   // Require one of predefined values for 'stdio'.
+ *   silent: Boolean,
+ *   // Optionally accept an `Array` of `string`s for 'args'.
+ *   args: { type: Array, arrayType: String },
+ *   // Require `string` 'modulePath'.
+ *   modulePath: { type: String, required: true },
+ *   // Optionally accept one of predefined values for 'stdio'.
  *   stdio: { values: [ 'pipe', 'ignore', 0, 1, 2 ] }
  * }
  *
@@ -52,10 +52,10 @@ var util = require('dantil')
  *
  * ```js
  * var schema = { list: Array }
- * // => Requires the `list` property in `options`, and must be an `Array`.
+ * // => Optionally accepts the `list` property in `options`, which must be an `Array`.
  * ```
  *
- * When a primitive data type is required (e.g., `string`, `number`, and `boolean`), use their corresponding function constructors even if the passed `options` value is instantiated using literals instead of the constructor (and consequently are complex data types):
+ * When specifying primitive data types (e.g., `string`, `number`, and `boolean`), use their corresponding function constructors even if the passed `options` value is instantiated using literals instead of the constructor (and consequently are complex data types):
  *
  * ```js
  * var schema = { name: String }
@@ -63,12 +63,12 @@ var util = require('dantil')
  * //    references of the same type, `{ name: String('dantil') }`.
  * ```
  *
- * **Optional properties:** To optionalize an `options` property, set the `schema` property to an object defining `type` and `optional`:
+ * **Required properties:** To require an `options` property, set the `schema` property to an object defining `type` and `required`:
  *
  * ```js
  * var schema = {
- *   port: { type: Number, optional: true }
- *   // => Accepts `options` with or without the property `port`.
+ *   port: { type: Number, required: true }
+ *   // => Requires `options` with the property `port`.
  * }
  * ```
  *
@@ -103,7 +103,7 @@ var util = require('dantil')
  *
  * ```js
  * var schema = {
- *   fruit: [ 'apple', 'orange', 'pear' ]
+ *   fruit: { values: [ 'apple', 'orange', 'pear' ] }
  * }
  * // => Only accepts 'apple', 'orange', or 'pear' as a value for `fruit`; e.g.,
  * //   `{ fruit: 'apple' }`.
@@ -113,9 +113,9 @@ function illFormedOpts(schema, options) {
   for (var paramName in schema) {
     var paramSchema = schema[paramName]
 
-    if (!paramSchema.optional && (!options || !options.hasOwnProperty(paramName))) {
+    if (paramSchema.required && (!options || !options.hasOwnProperty(paramName))) {
       util.logError('Missing \'' + paramName + '\' property:')
-			util.logPathAndObject(options)
+      util.logPathAndObject(options)
       return true
     }
   }
@@ -131,7 +131,7 @@ function illFormedOpts(schema, options) {
       util.log('       Acceptable properties:', Object.keys(schema).map(function (prop) {
         return util.stylize(prop)
       }).join(', '))
-			util.logPathAndObject(options)
+      util.logPathAndObject(options)
       return true
     }
 
@@ -143,14 +143,14 @@ function illFormedOpts(schema, options) {
     // Check for properties defined as `undefined` (likely by accident).
     if (optsVal === undefined) {
       util.logError(paramNameQuoted + ' defined as \'undefined\':')
-			util.logPathAndObject(options)
+      util.logPathAndObject(options)
       return true
     }
 
     // Check for `undefined` values in arrays (likely by accident).
     if (Array.isArray(optsVal) && optsVal.indexOf(undefined) !== -1) {
       util.logError('\'undefined\' found in ' + paramNameQuoted + ':')
-			util.logPathAndObject(options)
+      util.logPathAndObject(options)
       return true
     }
 
@@ -159,7 +159,7 @@ function illFormedOpts(schema, options) {
       if (paramSchemaVals.indexOf(optsVal) === -1) {
         util.logError('Unrecognized value for ' + paramNameQuoted + ':', util.stylize(optsVal))
         util.log('       Acceptable values for ' + paramNameQuoted + ':', paramSchemaVals)
-				util.logPathAndObject(options)
+        util.logPathAndObject(options)
         return true
       }
     } else if (Array.isArray(paramSchemaType)) {
@@ -167,14 +167,14 @@ function illFormedOpts(schema, options) {
       if (paramSchemaType.indexOf(optsVal.constructor) === -1) {
         util.logError('Incorrect type for ' + paramNameQuoted + ':', util.stylize(optsVal))
         util.log('       Acceptable types for ' + paramNameQuoted + ':', concatConstructorNames(paramSchemaType))
-				util.logPathAndObject(options)
+        util.logPathAndObject(options)
         return true
       }
     } else {
       // Check if passed value is not of correct type.
       if (optsVal.constructor !== paramSchemaType) {
         util.logError(paramNameQuoted + ' not of type ' + util.colors.cyan(paramSchemaType.name) + ':', typeof optsVal === 'string' ? util.stylize(optsVal) : optsVal)
-				util.logPathAndObject(options)
+        util.logPathAndObject(options)
         return true
       }
 
@@ -189,7 +189,7 @@ function illFormedOpts(schema, options) {
             if (arrayType.indexOf(el.constructor) === -1) {
               util.logError(paramNameQuoted + ' array contains element of incorrect type:', util.stylize(el))
               util.log('       Acceptable types for elements of ' + paramNameQuoted + ':', concatConstructorNames(arrayType))
-							util.logPathAndObject(options)
+              util.logPathAndObject(options)
               return true
             }
           }
@@ -199,7 +199,7 @@ function illFormedOpts(schema, options) {
 
             if (el.constructor !== arrayType) {
               util.logError(paramNameQuoted + ' array contains element not of type ' + util.colors.cyan(arrayType.name) + ':', util.stylize(el))
-							util.logPathAndObject(options)
+              util.logPathAndObject(options)
               return true
             }
           }

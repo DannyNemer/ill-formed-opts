@@ -31,13 +31,13 @@ Checks if options object `options` adheres to `schema`, thereby simulating stati
 var illFormedOpts = require('ill-formed-opts')
 
 var schema = {
-  // Require `string` 'modulePath'.
-  modulePath: String,
-  // Optionally accept an `Array` of `string`s for 'args'.
-  args: { type: Array, arrayType: String, optional: true },
   // Optionally accept an `boolean` for 'silent'.
-  silent: { type: Boolean, optional: true },
-  // Require one of predefined values for 'stdio'.
+  silent: Boolean,
+  // Optionally accept an `Array` of `string`s for 'args'.
+  args: { type: Array, arrayType: String },
+  // Require `string` 'modulePath'.
+  modulePath: { type: String, required: true },
+  // Optionally accept one of predefined values for 'stdio'.
   stdio: { values: [ 'pipe', 'ignore', 0, 1, 2 ] }
 }
 
@@ -64,10 +64,10 @@ myFork({ modulePath: './myModule.js', stdio: 'out' })
 
 ```js
 var schema = { list: Array }
-// => Requires the `list` property in `options`, and must be an `Array`.
+// => Optionally accepts the `list` property in `options`, which must be an `Array`.
 ```
 
-When a primitive data type is required (e.g., `string`, `number`, and `boolean`), use their corresponding function constructors even if the passed `options` value is instantiated using literals instead of the constructor (and consequently are complex data types):
+When specifying primitive data types (e.g., `string`, `number`, and `boolean`), use their corresponding function constructors even if the passed `options` value is instantiated using literals instead of the constructor (and consequently are complex data types):
 
 ```js
 var schema = { name: String }
@@ -75,12 +75,12 @@ var schema = { name: String }
 //    references of the same type, `{ name: String('dantil') }`.
 ```
 
-**Optional properties:** To optionalize an `options` property, set the `schema` property to an object defining `type` and `optional`:
+**Required properties:** To require an `options` property, set the `schema` property to an object defining `type` and `required`:
 
 ```js
 var schema = {
-  port: { type: Number, optional: true }
-  // => Accepts `options` with or without the property `port`.
+  port: { type: Number, required: true }
+  // => Requires `options` with the property `port`.
 }
 ```
 
@@ -115,7 +115,7 @@ var schema = {
 
 ```js
 var schema = {
-  fruit: [ 'apple', 'orange', 'pear' ]
+  fruit: { values: [ 'apple', 'orange', 'pear' ] }
 }
 // => Only accepts 'apple', 'orange', or 'pear' as a value for `fruit`; e.g.,
 //   `{ fruit: 'apple' }`.
