@@ -15,7 +15,7 @@ npm install dannynemer/ill-formed-opts
 <!-- div -->
 
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, options)`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L111 "View in source")
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L116 "View in source")
 
 Checks if options object `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
 
@@ -63,14 +63,18 @@ myFork({ modulePath: './myModule.js', stdio: 'out' })
 **Property names and types:** `schema` is an object where each property name defines an accepted `options` property. Each `schema` property value defines the accepted data type(s) for that property using function constructors (e.g., `Array`, `Object`, `Number`, `MyClassName`):
 
 ```js
-var schema = { list: Array }
+var schema = {
+  list: Array
+}
 // => Optionally accepts the `list` property in `options`, which must be an `Array`.
 ```
 
 When specifying primitive data types (e.g., `string`, `number`, and `boolean`), use their corresponding function constructors even if the passed `options` value is instantiated using literals instead of the constructor (and consequently are complex data types):
 
 ```js
-var schema = { name: String }
+var schema = {
+  name: String
+}
 // => Accepts primitive type values, `{ name: 'dantil' }`, as well as complex type
 //    references of the same type, `{ name: String('dantil') }`.
 ```
@@ -91,8 +95,9 @@ var schema = {
    count: { type: [ Number, String ] },
    // => Accepts values for `count` of type `Number` or `String`.
    name: { type: [ String ] }
-   // => Accepts values for `count` of only type `String` (identical to
-   //    `{ name: String }`).
+   // => Accepts values for `count` of only type `String`.
+   alias: String,
+   // => Accepts values for `count` of only type `String` (identical to `name`).
 }
 ```
 
