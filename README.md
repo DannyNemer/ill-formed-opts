@@ -15,7 +15,7 @@ npm install dannynemer/ill-formed-opts
 <!-- div -->
 
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, options)`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L116 "View in source")
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L119 "View in source")
 
 Checks if options object `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
 
@@ -113,6 +113,9 @@ var schema = {
   values: { type: Array, arrayType: [ Number, String ] }
   // => Accepts an `Array` containing elements of type `String` or `Number` for
   //    `values`.
+  elements: { type: Array, arrayType: Object, allowEmpty: true }
+  // => Accepts an `Array` containing elements of type `Object`, and does not report
+  //    an error if the array is empty.
 }
 ```
 
