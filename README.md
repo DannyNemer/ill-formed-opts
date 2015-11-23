@@ -17,7 +17,7 @@ npm install dannynemer/ill-formed-opts
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, options)`
 <a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L119 "View in source")
 
-Checks if options object `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
+Checks if `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
 
 #### Arguments
 1. `schema` *(Object)*: The definition of required and optional properties for `options`.
