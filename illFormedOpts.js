@@ -148,12 +148,8 @@ function illFormedOpts(schema, options) {
     var paramSchemaType = paramSchema.type || paramSchema
     var paramSchemaVals = paramSchema.values
 
-    // Check for properties defined as `undefined` (likely by accident).
-    if (optsVal === undefined) {
-      util.logError(paramNameQuoted + ' defined as \'undefined\':')
-      util.logPathAndObject(options)
-      return true
-    }
+    // Skip optional properties defined as `undefined`. `required` properties defined as `undefined` are caught above.
+    if (optsVal === undefined) continue
 
     if (Array.isArray(optsVal)) {
       // Check for empty arrays.
