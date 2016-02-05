@@ -14,14 +14,15 @@ npm install dannynemer/ill-formed-opts
 
 <!-- div -->
 
-### <a id="illFormedOpts"></a>`illFormedOpts(schema, options)`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L119 "View in source")
+### <a id="illFormedOpts"></a>`illFormedOpts(schema, [options], [ignoreUndefined])`
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L120 "View in source")
 
 Checks if `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count). Prints descriptive, helpful errors messages when `options` is ill-formed, including the line number of the offending function call.
 
 #### Arguments
 1. `schema` *(Object)*: The definition of required and optional properties for `options`.
-2. `options` *(Object)*: The options object to check for conformity to `schema`.
+2. `[options]` *(Object)*: The options object to check for conformity to `schema`.
+3. `[ignoreUndefined]` *(Object)*: Specify ignoring non-`required` `options` properties defined as `undefined`. Otherwise, reports them as errors, which is useful for catching broken references.
 
 #### Returns
 *(boolean)*:  Returns `true` if `options` is ill-formed, else `false`.
