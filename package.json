@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "An options object schema validator for Node.js.",
   "main": "illFormedOpts.js",
+  "files": [
+    "illFormedOpts.js"
+  ],
   "directories": {
     "doc": "doc"
   },
