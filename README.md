@@ -15,7 +15,7 @@ npm install dannynemer/ill-formed-opts
 <!-- div -->
 
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, [options], [ignoreUndefined])`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L123 "View in source")
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L128 "View in source")
 
 Checks if `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count).
 <br>
@@ -42,7 +42,12 @@ var schema = {
   // Require `string` 'modulePath'.
   modulePath: { type: String, required: true },
   // Optionally accept one of predefined values for 'stdio'.
-  stdio: { values: [ 'pipe', 'ignore', 0, 1, 2 ] }
+  stdio: { values: [ 'pipe', 'ignore', 0, 1, 2 ] },
+  // Optionally accept an `Object` that adheres to nested object schema.
+  options: { type: Object, schema: {
+    cwd: String,
+    uid: Number,
+  } },
 }
 
 function myFork(options) {
