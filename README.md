@@ -73,7 +73,7 @@ myFork({ modulePath: './myModule.js', stdio: 'out' })
 
 ```js
 var mySchema = {
-  list: Array
+  list: Array,
 }
 // => Optionally accepts the `list` property in `options`, which must be an `Array`.
 ```
@@ -82,7 +82,7 @@ When specifying primitive data types (e.g., `string`, `number`, and `boolean`), 
 
 ```js
 var mySchema = {
-  name: String
+  name: String,
 }
 // => Accepts primitive type values, `{ name: 'dantil' }`, as well as complex type
 //    references of the same type, `{ name: String('dantil') }`.
@@ -92,7 +92,7 @@ var mySchema = {
 
 ```js
 var mySchema = {
-  port: { type: Number, required: true }
+  port: { type: Number, required: true },
   // => Requires `options` with the property `port`.
 }
 ```
@@ -103,7 +103,7 @@ var mySchema = {
 var mySchema = {
    count: { type: [ Number, String ] },
    // => Accepts values for `count` of type `Number` or `String`.
-   name: { type: [ String ] }
+   name: { type: [ String ] },
    // => Accepts values for `count` of only type `String`.
    alias: String,
    // => Accepts values for `count` of only type `String` (identical to `name`).
@@ -119,10 +119,10 @@ var mySchema = {
   //    `{ names: [ 'dantil' ] }`.
   paths: { type: Array, arrayType: [ String ] },
   // => Behavior identical to `names` property.
-  values: { type: Array, arrayType: [ Number, String ] }
+  values: { type: Array, arrayType: [ Number, String ] },
   // => Accepts an `Array` containing elements of type `String` or `Number` for
   //    `values`.
-  elements: { type: Array, arrayType: Object, allowEmpty: true }
+  elements: { type: Array, arrayType: Object, allowEmpty: true },
   // => Accepts an `Array` containing elements of type `Object`, and does not report
   //    an error if the array is empty.
 }
@@ -132,7 +132,7 @@ var mySchema = {
 
 ```js
 var mySchema = {
-  fruit: { values: [ 'apple', 'orange', 'pear' ] }
+  fruit: { values: [ 'apple', 'orange', 'pear' ] },
 }
 // => Only accepts 'apple', 'orange', or 'pear' as a value for `fruit`; e.g.,
 //   `{ fruit: 'apple' }`.
