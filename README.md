@@ -15,7 +15,7 @@ npm install dannynemer/ill-formed-opts
 <!-- div -->
 
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, [options], [ignoreUndefined])`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L128 "View in source")
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L140 "View in source")
 
 Checks if `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and parameter count).
 <br>
@@ -135,6 +135,18 @@ var mySchema = {
   fruit: { values: [ 'apple', 'orange', 'pear' ] },
   // => Only accepts 'apple', 'orange', or 'pear' as a value for `fruit`; e.g.,
   //    `{ fruit: 'apple' }`.
+}
+```
+
+**Nested object schemas:** To recursively check if a passed `Object` value adhere to a separate, nested schema, set the `mySchema` property to an object defining `type` as `Object` and `schema` as an object following the `options` parameterization:
+
+```js
+var mySchema = {
+  childOptions: { type: Object, schema: {
+    cwd: String,
+    uid: Number,
+  } },
+  // => Recursively checks value for `childOptions` adheres to `schema`.
 }
 ```
 * * *
