@@ -15,7 +15,7 @@ npm install dannynemer/ill-formed-opts
 <!-- div -->
 
 ### <a id="illFormedOpts"></a>`illFormedOpts(schema, [options], [ignoreUndefined])`
-<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L140 "View in source")
+<a href="#illFormedOpts">#</a> [&#x24C8;](https://github.com/DannyNemer/ill-formed-opts/blob/master/illFormedOpts.js#L138 "View in source")
 
 Checks if `options` adheres to `schema`, thereby simulating static function arguments (i.e., type checking and arity).
 <br>
@@ -60,14 +60,12 @@ function myFork(options) {
   // ...stuff...
 }
 ```
+The contents of `foo.js`:
 ```js
 myFork({ modulePath: './myModule.js', stdio: 'out' })
-// => Prints: Error: Unrecognized value for 'stdio': 'out'
-//                   Acceptable values for 'stdio': [ 'pipe', 'ignore', 0, 1, 2 ]
-//
-//            /Users/Danny/foo.js:22
-//              { modulePath: './myModule.js', stdio: 'out' }
 ```
+Output:
+<br><img src="https://raw.githubusercontent.com/DannyNemer/ill-formed-opts/master/doc/illFormedOpts-example.jpg" alt="illFormedOpts() example output"/>
 
 **Property names and types:** `mySchema` is an object where each property name defines an accepted `options` property. Each `mySchema` property value defines the accepted data type(s) for that property using function constructors (e.g., `Array`, `Object`, `Number`, `MyClassName`):
 
